@@ -4,7 +4,6 @@ from playsound import playsound
 
 #Deklarerar att inventoryn från början är tomt 
 inventory = []
-helande_inventory = []
 
 #En del som anger vad man kan hitta i en kista, som sedan delas upp i helande items och styrkebonus. Vilket senare används när man avgör vad man hittar för något.
 kistitems = ["en helande dryck", "ett svärd", "en blå ring", "en krona", "en rustning", "en sköld", "ett magiskt bandage", "en amulet", "en röd ring"]
@@ -14,6 +13,8 @@ kroppsdelar = ["bålen", "vänsterben", "högerben", "vänsterarm", "högerarm",
 
 Monster = [["en drake", "draken"], ["en ork", "orken"], ["en ödlemänniska", "ödlemänniskan"], ["en varg", "vargen"], ["ett spöke", "spöket"], ["en zombie", "zombien"]]
 #Dessa listor separerar monster, då alla monster förutom spöket slutar på "en" eller "an"
+monster_paramter = 10
+#Monster_parameter är monsters styrka. 
 x = [0, 1, 3, 5, 2]
 y = [4]
 
@@ -97,62 +98,85 @@ class Item():
         self.STR_bonus = STR_bonus
         self.healing = healing
 
-def Bonus(self):
-    if self.STR_bonus != 0:
-        return self.STR_bonus
-    else:
-        return self.healing
-    
-def typ_av_item(self):
-    if self.STR_bonus != 0:
-        return "STR"
-    else:
-        return "Healing"
+    def set_healing(self, ny_heal):
+        self.healing = ny_heal
 
-def get_self(x):
-    if x == "Blå ring":
-        return BlåRing_Item
-    elif x == "En helande dryck":
-        return Enhelandedryck_Item
-    elif x == "Ett svärd":
-        return EttSvärd_Item
-    elif x == "En rustning":
-        return EnRustning_Item
-    elif x == "En sköld":
-        return EnSköld_Item
-    elif x == "Ett magiskt bandage":
-        return EttMagisktBandage_Item
-    elif x == "En amulet":
-        return EnAmulet_Item
+    def get_healing(self):
+        return self.healing
+
+    def set_STR_bonus(self, ny_styrka):
+        self.STR_bonus = ny_styrka
+
+    def get_STR_bonus(self):
+        return self.STR_bonus
+
+def ny_self_bonus(item, bonus):
+    if item == "Blå ring":
+        BlåRing_Item.set_healing(bonus)
+    elif item == "En helande dryck":
+        Enhelandedryck_Item.set_healing(bonus)
+    elif item == "Ett svärd":
+        EttSvärd_Item.set_STR_bonus(bonus)
+    elif item == "En krona":
+        EnKrona_Item.set_STR_bonus(bonus)
+    elif item == "En rustning":
+        EnRustning_Item.set_STR_bonus(bonus)
+    elif item == "En sköld":
+        EnSköld_Item.set_STR_bonus(bonus)
+    elif item == "Ett magiskt bandage":
+        EttMagisktBandage_Item.set_healing(bonus)
+    elif item == "En amulet":
+        EnAmulet_Item.set_healing(bonus)
     else:
-        return EnRödRing_Item
+        EnRödRing_Item.set_STR_bonus(bonus)
+
+def get_self_bonus(item):
+    if item == "Blå ring":
+        BlåRing_Item.get_healing()
+    elif item == "En helande dryck":
+        Enhelandedryck_Item.get_healing()
+    elif item == "Ett svärd":
+        EttSvärd_Item.get_STR_bonus()
+    elif item == "En krona":
+        EnKrona_Item.get_STR_bonus()
+    elif item == "En rustning":
+        EnRustning_Item.get_STR_bonus()
+    elif item == "En sköld":
+        EnSköld_Item.get_STR_bonus()
+    elif item == "Ett magiskt bandage":
+        EttMagisktBandage_Item.get_healing()
+    elif item == "En amulet":
+        EnAmulet_Item.get_healing()
+    else:
+        EnRödRing_Item.get_STR_bonus()
+
+def check_item(item):
+    if item in helande_items:
+        return True
+    else:
+        return False
+
 
 def printItems():
     if len (inventory) > 0:
         for i in inventory:
-            print(i)
-            Self = get_self(i)
-            BonuS = Bonus(Self)
-            typ_item = typ_av_item(Self)
-            if typ_item == "STR":
-                print(f"{i} har {BonuS} i styrka")
-            else:
+            print (i)
+            item_typ = check_item(i)
+            BonuS = get_self_bonus(i)
+            if item_typ == True:
                 print(f"{i} har {BonuS} i healing")
-    else:
-        print("Du har inget i ditt inventory än")
-            
-                
-            
-        
-BlåRing_Item = ("Blå ring", 0, 0)
-Enhelandedryck_Item = ("En helande dryck", 0, 0)
-EttSvärd_Item = ("Ett svärd", 0, 0)
-EnKrona_Item = ("En krona", 0, 0)
-EnRustning_Item = ("En rustning", 0, 0)
-EnSköld_Item = ("En sköld", 0, 0)
-EttMagisktBandage_Item = ("Ett magiskt bandage", 0, 0)
-EnAmulet_Item = ("En amulet", 0, 0)
-EnRödRing_Item = ("En röd ring", 0, 0)
+            else:
+                 print(f"{i} har {BonuS} i healing")
+             
+BlåRing_Item = Item("Blå ring", 0, 0)
+Enhelandedryck_Item = Item("En helande dryck", 0, 0)
+EttSvärd_Item = Item("Ett svärd", 0, 0)
+EnKrona_Item = Item("En krona", 0, 0)
+EnRustning_Item = Item("En rustning", 0, 0)
+EnSköld_Item = Item("En sköld", 0, 0)
+EttMagisktBandage_Item = Item("Ett magiskt bandage", 0, 0)
+EnAmulet_Item = Item("En amulet", 0, 0)
+EnRödRing_Item = Item("En röd ring", 0, 0)
 
 
 
@@ -217,34 +241,43 @@ def valet():
                     print("Otillåtet svar")
         elif Valet == "4":
             time.sleep(2)
+            hela()
         else:
             print("Otillåtet svar")
        
 
-#def hela():
-#    fråga = input("Du är skadad. Vill du hela dig själv?")
-#    fråga = fråga.lower()
-#    if fråga == "ja":
-#        while True:
-#            print(helande_invenetory)
-#           använt_helande_item = input("Vilket item vill du använda?")
-#           if använt_helande_item in ["1", "2", "3", "4", "5"]:
-#                använt_helande_item = int(använt_helande_item)
-#                lista_för_helande_items = len(helande_inventory)
-#               if använt_helande_item <= lista_för_helande_items:
-#                    använt_helande_item = använt_helande_item - 1
-#                   helande_inventory.pop(använt_helande_item)
-#                   while True:
-#                       helad_kropssdel = input("Vilken kropppsdel vill du hela?")
-#                       helad_kroppsdel = helad_kroppsdel.lower()
-#                       if helad_kroppsdel in kroppsdelar:
-#                           #lägga till itemets bonus i hp i den kroppsdelen
-#                       else:
-#                           print("Otillåten kroppsdel")
-#           else:
-#               print("Otillåtet val på kroppsdel")
-#   elif fråga == "nej":
-#       continue
+def hela():
+    fråga = input("Du är skadad. Vill du hela dig själv?")
+    fråga = fråga.lower()
+    while True:
+        if fråga == "ja":
+            while True:
+                print(helande_inventory)
+                använt_helande_item = input("Vilket item vill du använda?")
+                if använt_helande_item in ["1", "2", "3", "4", "5"]:
+                    använt_helande_item = int(använt_helande_item)
+                    lista_för_helande_items = len(helande_inventory)
+                    if len(helande_inventory) == 0:
+                        print("Du har inget item att hela dig med")
+                        continue
+                    else:
+                        continue
+                    if använt_helande_item <= lista_för_helande_items:
+                        använt_helande_item = använt_helande_item - 1
+                        helande_inventory.pop(använt_helande_item)
+                        while True:
+                           helad_kropssdel = input("Vilken kropppsdel vill du hela?")
+                           helad_kroppsdel = helad_kroppsdel.lower()
+                           if helad_kroppsdel in kroppsdelar:
+                               print("Tilde är fin")
+                               #lägga till itemets bonus i hp i den kroppsdelen
+                           else:
+                               print("Otillåten kroppsdel")
+                        else:
+                            print("Otillåtet val på kroppsdel")
+        elif fråga == "nej":
+            continue
+        
 
 
 #Allt som händer när man stöter på ett monster
@@ -253,7 +286,7 @@ def monster(self):
     Monster_namn = rand.randint(0,len(Monster) - 1)
     print(f"\n{self.namn} stöter på {Monster[Monster_namn][0]}!")
     time.sleep(3)
-    m_styrka = rand.randint(1, 10)
+    m_styrka = rand.randint(1, monster_parameter)
     if m_styrka > self.styrka:
         Skada = A_Player.träff_del(m_styrka)
         print(f"\n{Monster[Monster_namn][1].title()} är för stark och {self.namn} tappar {m_styrka} hp i {Skada}")
@@ -266,6 +299,7 @@ def monster(self):
         else:
             print(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar det. {self.namn} går upp en level")
         self.level = self.level + 1
+        monster_parameter = monster_parameter + 3
 
 #En funktion som tar hand om vad som händer när man hittar en kista
         
@@ -280,19 +314,27 @@ def kista(self):
         kist_val = kist_val.lower()
         if kist_val == "ja":
             if item in inventory:
-                input("Du har redan ett sådant föremål i ditt inventory. Vill du byta ut det?")
-                inventory.append(item)
+                svar = input("Du har redan ett sådant föremål i ditt inventory. Vill du byta ut det?")
+                svar = svar.lower()
                 item = item.title()
-                print(item)
-                print(f"\n{item} lades till i {self.namn} inventory")
-                item = item.lower()
-                if item in str_items:                    A_Player.styrka = A_Player.styrka + bonus
-                elif item in helande_items:
-                    helande_inventory.append(item)
-                    inventory.append(item)
+                while True:
+                    if svar == "ja":
+                        #här ska det gamla itemet bytas ut mot det nya
+                        print(f"\n{item} med en bonus på {bonus} byttes ut mot det du redan hade")
+                        break
+                    elif svar == "nej":
+                        #här behålls det gammla itemet.
+                        item = item.lower()
+                        print(f"Du behåller {item_2}")
+                        break
+                    else:
+                        print("Otillåtet svar")
+                        continue
+               
             else:
                 inventory.append(item)
-            break
+                ny_self_bonus(item, bonus)
+                break
         elif kist_val == "nej":
                 break
         else:
