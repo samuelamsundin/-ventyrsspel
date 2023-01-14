@@ -85,14 +85,54 @@ class Player():
         self.namn = nytt_namn
 
     def Döda_kroppsdelar(self):
-        if self.HP_huvud < 0:
+        if self.HP_huvud <= 0:
             return True
         elif len(döda_kroppsdelar) == 2:
             return True
         else:
             return False
+        
+def heala_kroppsdel(kroppsdel, mängd_heal):
+    if kroppsdel == "bålen":
+        if (A_Player.HP_bål + mängd_heal) > 15:
+            A_Player.HP_bål = 15
+        else:
+            A_Player.HP_bål = A_Player.HP_bål + mängd_heal
+            
+    elif kroppsdel == "vänsterben":
+        if (A_Player.HP_vänsterben + mängd_heal) > 10:
+            A_Player.HP_vänsterben = 10
+        else:
+            A_Player.HP_vänsterben = A_Player.HP_vänsterben + mängd_heal
+        
+    elif kroppsdel == "högerben":
+        if (A_Player.HP_högerben + mängd_heal) > 10:
+            A_Player.HP_högerben = 10
+        else:
+            A_Player.HP_högerben = A_Player.HP_högerben + mängd_heal
+        
+    elif kroppsdel == "vänsterarm":
+        if (A_Player.HP_vänsterarm + mängdheal) > 10:
+            A_Player.HP_vänsterarm = 10
+        else:
+            A_Player.HP_vänsterarm = A_Player.HP_vänsterben + mängd_heal
+        
+    elif kroppsdel == "högerarm":
+        if (A_Player.HP_högerarm + mängdheal) > 10:
+            A_Player.HP_högerarm = 10
+        else:
+            A_Player.HP_högerarm = A_Player.HP_högerarm + mängdheal
+            
+    else:
+        if (A_Player.HP_huvud + mängdheal) > 15:
+            A_Player.HP_huvud = 15
+        else:
+            A_Player.HP_huvud = A_Player.HP_huvud + mängdheal
+    
 
-class Item():
+#En del som skapar klassen "item" som deklarerar namn samt bonusar på föremål som spelaren kan hitta under spelets gång  
+        
+class Item(): 
     def __init__(self, name, STR_bonus, healing):
         self.name = name
         self.STR_bonus = STR_bonus
@@ -150,24 +190,18 @@ def get_self_bonus(item):
     else:
         EnRödRing_Item.get_STR_bonus()
 
-def check_item(item):
-    if item in helande_items:
-        return True
-    else:
-        return False
-
 
 def printItems():
     if len (inventory) > 0:
         for i in inventory:
             print (i)
-            item_typ = check_item(i)
             BonuS = get_self_bonus(i)
-            if item_typ == True:
+            if item in helande_items:
                 print(f"{i} har {BonuS} i healing")
             else:
                  print(f"{i} har {BonuS} i healing")
-             
+
+#Lägger till alla föremål i klassen item             
 BlåRing_Item = Item("Blå ring", 0, 0)
 Enhelandedryck_Item = Item("En helande dryck", 0, 0)
 EttSvärd_Item = Item("Ett svärd", 0, 0)
@@ -249,34 +283,63 @@ def valet():
 def hela():
     fråga = input("Du är skadad. Vill du hela dig själv?")
     fråga = fråga.lower()
+    heal_items = []
     while True:
         if fråga == "ja":
-            while True:
-                print(helande_inventory)
-                använt_helande_item = input("Vilket item vill du använda?")
-                if använt_helande_item in ["1", "2", "3", "4", "5"]:
-                    använt_helande_item = int(använt_helande_item)
-                    lista_för_helande_items = len(helande_inventory)
-                    if len(helande_inventory) == 0:
-                        print("Du har inget item att hela dig med")
-                        continue
+            for i in inventory:
+                if i in heal_items:
+                    heal_items.append(i)
+            if len(heal_items) < 1:
+                print("Du har inga föremål att hela dig själv med")
+            else:
+                antal_heal_items = len(heal_items)
+                print(heal_items)
+                while True:
+                    val_item = input("Vilket nummer på item vill du använda?(använder siffror)")
+                    if val_item in ["1","2","3","4","5"]:
+                        val_item = int(val_item)
+                        val_item = val_item - 1
+                        valt_item = heal_items.pop(val_item)
+                        break
                     else:
                         continue
-                    if använt_helande_item <= lista_för_helande_items:
-                        använt_helande_item = använt_helande_item - 1
-                        helande_inventory.pop(använt_helande_item)
-                        while True:
-                           helad_kropssdel = input("Vilken kropppsdel vill du hela?")
-                           helad_kroppsdel = helad_kroppsdel.lower()
-                           if helad_kroppsdel in kroppsdelar:
-                               print("Tilde är fin")
-                               #lägga till itemets bonus i hp i den kroppsdelen
-                           else:
-                               print("Otillåten kroppsdel")
-                        else:
-                            print("Otillåtet val på kroppsdel")
-        elif fråga == "nej":
-            continue
+                while True:
+                    print(kroppsdelar)
+                    helad_kropssdel = input("Vilken kropppsdel vill du hela?")
+                    helad_kroppsdel = helad_kroppsdel.lower()
+                    if helad_kroppsdel in kroppsdelar:
+                        mängd_heal = get_self_bonus(valt_item)
+                        heala_kroppsdel(helad_kroppsdelar, valt_item)
+                        ny_self_bonus(valt_item, 0)
+                        inventory.pop(valt_item)
+                    else:
+                        continue
+        else:
+            break
+            
+                    
+#                print(helande_inventory)
+#                använt_helande_item = input("Vilket item vill du använda?")
+#                if använt_helande_item in ["1", "2", "3", "4", "5"]:
+#                    använt_helande_item = int(använt_helande_item)
+#                    lista_för_helande_items = len(helande_inventory)
+#                   if len(helande_inventory) == 0:
+#                       print("Du har inget item att hela dig med")
+#                       continue
+#                   else:
+#                       continue
+#                   if använt_helande_item <= lista_för_helande_items:
+#                       använt_helande_item = använt_helande_item - 1
+#                       helande_inventory.pop(använt_helande_item)
+#                       while True:
+#                          helad_kropssdel = input("Vilken kropppsdel vill du hela?")
+#                          helad_kroppsdel = helad_kroppsdel.lower()
+#                          if helad_kroppsdel in kroppsdelar:
+#                              #lägga till itemets bonus i hp i den kroppsdelen
+#                          else:
+#                              print("Otillåten kroppsdel")
+#                       else:
+#                           print("Otillåtet val på kroppsdel")
         
 
 
@@ -330,11 +393,11 @@ def kista(self):
                     else:
                         print("Otillåtet svar")
                         continue
-               
             else:
                 inventory.append(item)
                 ny_self_bonus(item, bonus)
-                break
+                if item in helande_items:    
+                    break
         elif kist_val == "nej":
                 break
         else:
