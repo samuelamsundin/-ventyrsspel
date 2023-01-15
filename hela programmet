@@ -289,7 +289,6 @@ def valet():
                         vinn_förlust = monster(A_Player, Monster_parameter)
                         if vinn_förlust == "win":
                             Monster_parameter = Monster_parameter + 3
-                            print(Monster_parameter)
                         vinn_förlust = ""
                         break
                     elif Dörr == 2:
