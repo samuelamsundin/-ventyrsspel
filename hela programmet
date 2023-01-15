@@ -34,7 +34,7 @@ class Player():
         träffdel = rand.randint(1, 11)
         if träffdel == 1 or träffdel == 2:
             self.HP_vänsterben = self.HP_vänsterben - skada
-            if self.HP_vänsterben < 0:
+            if self.HP_vänsterben <= 0:
                 if "vänsterben" in döda_kroppsdelar:
                     "inget händer"
                 else:
@@ -42,7 +42,7 @@ class Player():
             return "vänsterbenet"
         elif träffdel == 3 or träffdel == 4:
             self.HP_högerben= self.HP_högerben - skada
-            if self.HP_högerben < 0:
+            if self.HP_högerben <= 0:
                 if "högerben" in döda_kroppsdelar:
                     "inget händer"
                 else:
@@ -50,7 +50,7 @@ class Player():
             return "högerbenet"
         elif träffdel == 5 or träffdel == 6:
             self.HP_bål = self.HP_bål - skada
-            if self.HP_bål < 0:
+            if self.HP_bål <= 0:
                 if "bålen" in döda_kroppsdelar:
                     "inget händer"
                 else:
@@ -58,7 +58,7 @@ class Player():
             return "bålen"
         elif träffdel == 7 or träffdel == 8:
             self.HP_vänsterarm = self.HP_vänsterarm - skada
-            if self.HP_vänsterarm < 0:
+            if self.HP_vänsterarm <= 0:
                 if "vänsterarm" in döda_kroppsdelar:
                     "inget händer"
                 else:
@@ -66,7 +66,7 @@ class Player():
             return "vänsterarmen"
         elif träffdel == 9 or träffdel == 10:
             self.HP_högerarm = self.HP_högerarm - skada
-            if self.HP_högerarm < 0:
+            if self.HP_högerarm <= 0:
                 if "högerarm" in döda_kroppsdelar:
                     "inget händer"
                 else:
@@ -109,22 +109,22 @@ def heala_kroppsdel(kroppsdel, mängd_heal):
             A_Player.HP_högerben = A_Player.HP_högerben + mängd_heal
         
     elif kroppsdel == "vänsterarm":
-        if (A_Player.HP_vänsterarm + mängdheal) > 10:
+        if (A_Player.HP_vänsterarm + mängd_heal) > 10:
             A_Player.HP_vänsterarm = 10
         else:
             A_Player.HP_vänsterarm = A_Player.HP_vänsterben + mängd_heal
         
     elif kroppsdel == "högerarm":
-        if (A_Player.HP_högerarm + mängdheal) > 10:
+        if (A_Player.HP_högerarm + mängd_heal) > 10:
             A_Player.HP_högerarm = 10
         else:
-            A_Player.HP_högerarm = A_Player.HP_högerarm + mängdheal
+            A_Player.HP_högerarm = A_Player.HP_högerarm + mängd_heal
             
     else:
-        if (A_Player.HP_huvud + mängdheal) > 15:
+        if (A_Player.HP_huvud + mängd_heal) > 15:
             A_Player.HP_huvud = 15
         else:
-            A_Player.HP_huvud = A_Player.HP_huvud + mängdheal
+            A_Player.HP_huvud = A_Player.HP_huvud + mängd_heal
     
 
 #En del som skapar klassen "item" som deklarerar namn samt bonusar på föremål som spelaren kan hitta under spelets gång  
@@ -202,7 +202,7 @@ def printItems():
             if i in helande_items:
                 print(f"{i} har {BonuS} i healing")
             else:
-                 print(f"{i} har {BonuS} i healing")
+                 print(f"{i} har {BonuS} i styrka")
     else:
         print("Ditt inventory är tomt")
 
@@ -210,7 +210,7 @@ def total_styrka():
     den_totala_styrkan = A_Player.styrka
     for i in inventory:
         if i in str_items:
-            den_totala_styrkan + get_self_bonus(i)
+            den_totala_styrkan = den_totala_styrkan + get_self_bonus(i)
     return den_totala_styrkan
             
             
@@ -260,10 +260,10 @@ def valet():
             if len(inventory) > 0:
                 printItems()
                 print(inventory)
-                fråga = input("\nVill du plocka bort något?")
-                fråga = fråga.lower
                 while True:
-                    if fråga == "ja":
+                    ta_bort = input("\nVill du plocka bort något?")
+                    ta_bort = ta_bort.lower
+                    if ta_bort == "ja":
                         borttaget_item = input("Vilket item vill du plocka bort?")
                         if borttaget_item in ["1","2","3","4","5"]:
                             borttaget_item = int(borttaget_item)
@@ -272,8 +272,9 @@ def valet():
                             if borttaget_item <= lista_för_items:
                                 inventory.pop(borttaget_item)
                         break
-                    elif fråga == "nej":
-                        time.sleep(2)
+                    elif ta_bort == "nej":
+                        print("hej")
+                        #time.sleep(2)
                         break
                     else:
                         continue
@@ -291,7 +292,7 @@ def valet():
                             Monster_parameter = Monster_parameter + 3
                         vinn_förlust = ""
                         break
-                    elif Dörr == 2:
+                    elif Dörr == 5:
                         fälla(A_Player)
                         break
                     else:
@@ -338,9 +339,17 @@ def hela():
                         mängd_heal = get_self_bonus(valt_item)
                         heala_kroppsdel(helad_kroppsdel, mängd_heal)
                         ny_self_bonus(valt_item, 0)
-                        inventory.pop(valt_item)
+                        nummer_inventory = 0
+                        for i in inventory:
+                            if i == valt_item:
+                                break
+                            else:
+                                plats = nummer_inventory + 1
+                        inventory.pop(nummer_inventory)
+                        break
                     else:
                         continue
+                break
                     
         elif fråga == "nej":
             break
@@ -383,9 +392,9 @@ def kista(self):
         if kist_val == "ja":
             if item in inventory:
                 print(f"Du har redan ett sådant item, det itemet du har just nu har bonusen {get_self_bonus(item)}")
-                svar = input("Vill du byta ut det?")
-                svar = svar.lower()
                 while True:
+                    svar = input("Vill du byta ut det?")
+                    svar = svar.lower()
                     if svar == "ja":
                         #här ska det gamla itemet bytas ut mot det nya
                         item = item.title()
