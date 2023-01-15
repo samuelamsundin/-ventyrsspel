@@ -1,6 +1,5 @@
 import random as rand
 import time
-from playsound import playsound
 
 #Deklarerar att inventoryn från början är tomt 
 inventory = []
@@ -13,11 +12,9 @@ kroppsdelar = ["bålen", "vänsterben", "högerben", "vänsterarm", "högerarm",
 
 Monster = [["en drake", "draken"], ["en ork", "orken"], ["en ödlemänniska", "ödlemänniskan"], ["en varg", "vargen"], ["ett spöke", "spöket"], ["en zombie", "zombien"]]
 #Dessa listor separerar monster, då alla monster förutom spöket slutar på "en" eller "an"
-monster_paramter = 10
-#Monster_parameter är monsters styrka. 
+
 x = [0, 1, 3, 5, 2]
 y = [4]
-
 
 #En del som skapar klssen spelare med diverse attribut. Och som definierar vilket kroppsdel som kommer bli träffad och vad som händer då. 
 
@@ -39,7 +36,7 @@ class Player():
             self.HP_vänsterben = self.HP_vänsterben - skada
             if self.HP_vänsterben < 0:
                 if "vänsterben" in döda_kroppsdelar:
-                    a = a
+                    "inget händer"
                 else:
                     döda_kroppsdelar.append("vänsterben")
             return "vänsterbenet"
@@ -47,7 +44,7 @@ class Player():
             self.HP_högerben= self.HP_högerben - skada
             if self.HP_högerben < 0:
                 if "högerben" in döda_kroppsdelar:
-                    a = a
+                    "inget händer"
                 else:
                     döda_kroppsdelar.append("högerben")
             return "högerbenet"
@@ -55,7 +52,7 @@ class Player():
             self.HP_bål = self.HP_bål - skada
             if self.HP_bål < 0:
                 if "bålen" in döda_kroppsdelar:
-                    a = a
+                    "inget händer"
                 else:
                     döda_kroppsdelar.append("bålen")
             return "bålen"
@@ -63,7 +60,7 @@ class Player():
             self.HP_vänsterarm = self.HP_vänsterarm - skada
             if self.HP_vänsterarm < 0:
                 if "vänsterarm" in döda_kroppsdelar:
-                    a = a
+                    "inget händer"
                 else:
                     döda_kroppsdelar.append("vänsterarm")
             return "vänsterarmen"
@@ -71,7 +68,7 @@ class Player():
             self.HP_högerarm = self.HP_högerarm - skada
             if self.HP_högerarm < 0:
                 if "högerarm" in döda_kroppsdelar:
-                    a = a
+                    "inget händer"
                 else:
                     döda_kroppsdelar.append("högerarm")
             return "högerarmen"
@@ -149,58 +146,74 @@ class Item():
 
     def get_STR_bonus(self):
         return self.STR_bonus
+    
+    def get_values(self):
+        print(self.name)
+        print(self.STR_bonus)
+        print(self.healing)
+        print("")
 
-def ny_self_bonus(item, bonus):
-    if item == "Blå ring":
-        BlåRing_Item.set_healing(bonus)
-    elif item == "En helande dryck":
-        Enhelandedryck_Item.set_healing(bonus)
-    elif item == "Ett svärd":
-        EttSvärd_Item.set_STR_bonus(bonus)
-    elif item == "En krona":
-        EnKrona_Item.set_STR_bonus(bonus)
-    elif item == "En rustning":
-        EnRustning_Item.set_STR_bonus(bonus)
-    elif item == "En sköld":
-        EnSköld_Item.set_STR_bonus(bonus)
-    elif item == "Ett magiskt bandage":
-        EttMagisktBandage_Item.set_healing(bonus)
-    elif item == "En amulet":
-        EnAmulet_Item.set_healing(bonus)
+def ny_self_bonus(item_b, ny_bonus):
+    if item_b == "en blå ring":
+        BlåRing_Item.set_healing(ny_bonus)
+    elif item_b == "en helande dryck":
+        Enhelandedryck_Item.set_healing(ny_bonus)
+    elif item_b == "ett svärd":
+        EttSvärd_Item.set_STR_bonus(ny_bonus)
+    elif item_b == "en krona":
+        EnKrona_Item.set_STR_bonus(ny_bonus)
+    elif item_b == "en rustning":
+        EnRustning_Item.set_STR_bonus(ny_bonus)
+    elif item_b == "en sköld":
+        EnSköld_Item.set_STR_bonus(ny_bonus)
+    elif item_b == "ett magiskt bandage":
+        EttMagisktBandage_Item.set_healing(ny_bonus)
+    elif item_b == "en amulet":
+        EnAmulet_Item.set_healing(ny_bonus)
     else:
-        EnRödRing_Item.set_STR_bonus(bonus)
+        EnRödRing_Item.set_STR_bonus(ny_bonus)
 
-def get_self_bonus(item):
-    if item == "Blå ring":
-        BlåRing_Item.get_healing()
-    elif item == "En helande dryck":
-        Enhelandedryck_Item.get_healing()
-    elif item == "Ett svärd":
-        EttSvärd_Item.get_STR_bonus()
-    elif item == "En krona":
-        EnKrona_Item.get_STR_bonus()
-    elif item == "En rustning":
-        EnRustning_Item.get_STR_bonus()
-    elif item == "En sköld":
-        EnSköld_Item.get_STR_bonus()
-    elif item == "Ett magiskt bandage":
-        EttMagisktBandage_Item.get_healing()
-    elif item == "En amulet":
-        EnAmulet_Item.get_healing()
+def get_self_bonus(check_item):
+    if check_item == "en blå ring":
+        get_bonus = BlåRing_Item.get_healing()
+    elif check_item == "en helande dryck":
+        get_bonus = Enhelandedryck_Item.get_healing()
+    elif check_item == "ett svärd":
+        get_bonus = EttSvärd_Item.get_STR_bonus()
+    elif check_item == "en krona":
+        get_bonus = EnKrona_Item.get_STR_bonus()
+    elif check_item == "en rustning":
+        get_bonus = EnRustning_Item.get_STR_bonus()
+    elif check_item == "en sköld":
+        get_bonus = EnSköld_Item.get_STR_bonus()
+    elif check_item == "ett magiskt bandage":
+        get_bonus = EttMagisktBandage_Item.get_healing()
+    elif check_item == "en amulet":
+        get_bonus = EnAmulet_Item.get_healing()
     else:
-        EnRödRing_Item.get_STR_bonus()
+        get_bonus = EnRödRing_Item.get_STR_bonus()
+    return get_bonus
 
 
 def printItems():
-    if len (inventory) > 0:
+    if len(inventory) > 0:
         for i in inventory:
-            print (i)
             BonuS = get_self_bonus(i)
-            if item in helande_items:
+            if i in helande_items:
                 print(f"{i} har {BonuS} i healing")
             else:
                  print(f"{i} har {BonuS} i healing")
+    else:
+        print("Ditt inventory är tomt")
 
+def total_styrka():
+    den_totala_styrkan = A_Player.styrka
+    for i in inventory:
+        if i in str_items:
+            den_totala_styrkan + get_self_bonus(i)
+    return den_totala_styrkan
+            
+            
 #Lägger till alla föremål i klassen item             
 BlåRing_Item = Item("Blå ring", 0, 0)
 Enhelandedryck_Item = Item("En helande dryck", 0, 0)
@@ -222,6 +235,8 @@ döda_kroppsdelar = []
 #Varje gång man ska välja vad man vill göra körs det här programmet 
 
 def valet():
+    #Monster_parameter är monsters styrka.
+    Monster_parameter = 10
     while True:
         Valet = input("""\nVad vill du göra?
     1. Se din karaktärs egenskaper?
@@ -239,31 +254,43 @@ def valet():
 
     Du har förlorat {döda_kroppsdelar}
 
-    Din styrka är {A_Player.styrka}
+    Din styrka är {total_styrka()}
     Du är i level {A_Player.level}""")
         elif Valet == "2":
-            printItems()
-            print(inventory)
-            fråga = input("\nVill du plocka bort något?")
-            fråga = fråga.lower
-            if fråga == "ja":
-                borttaget_item = input("Vilket item vill du plocka bort?")
-                if borttaget_item in ["1","2","3","4","5"]:
-                    borttaget_item = int(borttaget_item)
-                    borttaget_item = borttaget_item - 1
-                    lista_för_items = len(inventory)
-                    if borttaget_item <= lista_för_items:
-                        inventory.pop()
-            elif fråga == "nej":
-                time.sleep(2)
+            if len(inventory) > 0:
+                printItems()
+                print(inventory)
+                fråga = input("\nVill du plocka bort något?")
+                fråga = fråga.lower
+                while True:
+                    if fråga == "ja":
+                        borttaget_item = input("Vilket item vill du plocka bort?")
+                        if borttaget_item in ["1","2","3","4","5"]:
+                            borttaget_item = int(borttaget_item)
+                            borttaget_item = borttaget_item - 1
+                            lista_för_items = len(inventory)
+                            if borttaget_item <= lista_för_items:
+                                inventory.pop(borttaget_item)
+                        break
+                    elif fråga == "nej":
+                        time.sleep(2)
+                        break
+                    else:
+                        continue
+            else:
+                print("Du har inget i ditt inventory")   
+                
         elif Valet == "3":
             while True:
                 val_dörr = input("Vilken dörr vill du välja? 1, 2 eller 3?")
                 if val_dörr in ["1","2","3"]:
                     Dörr = rand.randint (1,3)
-                    Dörr = 3
                     if Dörr == 1:
-                        monster(A_Player)
+                        vinn_förlust = monster(A_Player, Monster_parameter)
+                        if vinn_förlust == "win":
+                            Monster_parameter = Monster_parameter + 3
+                            print(Monster_parameter)
+                        vinn_förlust = ""
                         break
                     elif Dörr == 2:
                         fälla(A_Player)
@@ -278,7 +305,7 @@ def valet():
             hela()
         else:
             print("Otillåtet svar")
-       
+  
 
 def hela():
     fråga = input("Du är skadad. Vill du hela dig själv?")
@@ -287,10 +314,11 @@ def hela():
     while True:
         if fråga == "ja":
             for i in inventory:
-                if i in heal_items:
+                if i in helande_items:
                     heal_items.append(i)
             if len(heal_items) < 1:
                 print("Du har inga föremål att hela dig själv med")
+                break
             else:
                 antal_heal_items = len(heal_items)
                 print(heal_items)
@@ -305,52 +333,30 @@ def hela():
                         continue
                 while True:
                     print(kroppsdelar)
-                    helad_kropssdel = input("Vilken kropppsdel vill du hela?")
+                    helad_kroppsdel = input("Vilken kropppsdel vill du hela?")
                     helad_kroppsdel = helad_kroppsdel.lower()
                     if helad_kroppsdel in kroppsdelar:
                         mängd_heal = get_self_bonus(valt_item)
-                        heala_kroppsdel(helad_kroppsdelar, valt_item)
+                        heala_kroppsdel(helad_kroppsdel, mängd_heal)
                         ny_self_bonus(valt_item, 0)
                         inventory.pop(valt_item)
                     else:
                         continue
-        else:
-            break
-            
                     
-#                print(helande_inventory)
-#                använt_helande_item = input("Vilket item vill du använda?")
-#                if använt_helande_item in ["1", "2", "3", "4", "5"]:
-#                    använt_helande_item = int(använt_helande_item)
-#                    lista_för_helande_items = len(helande_inventory)
-#                   if len(helande_inventory) == 0:
-#                       print("Du har inget item att hela dig med")
-#                       continue
-#                   else:
-#                       continue
-#                   if använt_helande_item <= lista_för_helande_items:
-#                       använt_helande_item = använt_helande_item - 1
-#                       helande_inventory.pop(använt_helande_item)
-#                       while True:
-#                          helad_kropssdel = input("Vilken kropppsdel vill du hela?")
-#                          helad_kroppsdel = helad_kroppsdel.lower()
-#                          if helad_kroppsdel in kroppsdelar:
-#                              #lägga till itemets bonus i hp i den kroppsdelen
-#                          else:
-#                              print("Otillåten kroppsdel")
-#                       else:
-#                           print("Otillåtet val på kroppsdel")
+        elif fråga == "nej":
+            break
         
-
+        else:
+            continue
 
 #Allt som händer när man stöter på ett monster
 
-def monster(self):
+def monster(self, Monster_parameter):
     Monster_namn = rand.randint(0,len(Monster) - 1)
     print(f"\n{self.namn} stöter på {Monster[Monster_namn][0]}!")
     time.sleep(3)
-    m_styrka = rand.randint(1, monster_parameter)
-    if m_styrka > self.styrka:
+    m_styrka = rand.randint(1, Monster_parameter)
+    if m_styrka > total_styrka():
         Skada = A_Player.träff_del(m_styrka)
         print(f"\n{Monster[Monster_namn][1].title()} är för stark och {self.namn} tappar {m_styrka} hp i {Skada}")
         hela()
@@ -362,7 +368,7 @@ def monster(self):
         else:
             print(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar det. {self.namn} går upp en level")
         self.level = self.level + 1
-        monster_parameter = monster_parameter + 3
+        return "win"
 
 #En funktion som tar hand om vad som händer när man hittar en kista
         
@@ -377,31 +383,34 @@ def kista(self):
         kist_val = kist_val.lower()
         if kist_val == "ja":
             if item in inventory:
-                svar = input("Du har redan ett sådant föremål i ditt inventory. Vill du byta ut det?")
+                print(f"Du har redan ett sådant item, det itemet du har just nu har bonusen {get_self_bonus(item)}")
+                svar = input("Vill du byta ut det?")
                 svar = svar.lower()
-                item = item.title()
                 while True:
                     if svar == "ja":
                         #här ska det gamla itemet bytas ut mot det nya
+                        item = item.title()
                         print(f"\n{item} med en bonus på {bonus} byttes ut mot det du redan hade")
+                        ny_self_bonus(item, bonus)
                         break
                     elif svar == "nej":
                         #här behålls det gammla itemet.
                         item = item.lower()
-                        print(f"Du behåller {item_2}")
+                        print(f"Du behåller det gamla itemet")
                         break
                     else:
                         print("Otillåtet svar")
                         continue
+                break
             else:
                 inventory.append(item)
                 ny_self_bonus(item, bonus)
-                if item in helande_items:    
-                    break
+                break
         elif kist_val == "nej":
                 break
         else:
             print("Otillåtet svar")
+            continue
                 
 
 
