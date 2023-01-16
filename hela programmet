@@ -246,15 +246,21 @@ def valet():
         if Valet == "1":
             print(f"""
     I högerbenet har du {A_Player.HP_högerben}hp
+    
     I vänsterbenet har du {A_Player.HP_vänsterben}hp
+    
     I högerarmen har du {A_Player.HP_högerarm}hp
+    
     I vänsterarmen har du {A_Player.HP_vänsterarm}hp
+    
     I bålen har du {A_Player.HP_bål}hp
+    
     I huvudet har du {A_Player.HP_huvud}hp
 
     Du har förlorat {döda_kroppsdelar}
 
     Din styrka är {total_styrka()}
+    
     Du är i level {A_Player.level}""")
         elif Valet == "2":
             if len(inventory) > 0:
@@ -262,9 +268,10 @@ def valet():
                 print(inventory)
                 while True:
                     ta_bort = input("\nVill du plocka bort något?")
-                    ta_bort = ta_bort.lower
+                    ta_bort = ta_bort.lower()
                     if ta_bort == "ja":
                         borttaget_item = input("Vilket item vill du plocka bort?")
+                        print("Svara med en siffra mellan 1 till 5")
                         if borttaget_item in ["1","2","3","4","5"]:
                             borttaget_item = int(borttaget_item)
                             borttaget_item = borttaget_item - 1
@@ -273,8 +280,6 @@ def valet():
                                 inventory.pop(borttaget_item)
                         break
                     elif ta_bort == "nej":
-                        print("hej")
-                        #time.sleep(2)
                         break
                     else:
                         continue
@@ -323,7 +328,7 @@ def hela():
                 antal_heal_items = len(heal_items)
                 print(heal_items)
                 while True:
-                    val_item = input("Vilket nummer på item vill du använda?(använder siffror)")
+                    val_item = input("Vilket nummer på item vill du använda?(använd siffror)")
                     if val_item in ["1","2","3","4","5"]:
                         val_item = int(val_item)
                         val_item = val_item - 1
@@ -413,9 +418,9 @@ def kista(self):
             else:
                 inventory.append(item)
                 ny_self_bonus(item, bonus)
-                break
+            break
         elif kist_val == "nej":
-                break
+            break
         else:
             print("Otillåtet svar")
             continue
