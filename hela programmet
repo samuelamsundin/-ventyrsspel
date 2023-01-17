@@ -320,10 +320,30 @@ def valet():
                         vinn_förlust = monster(A_Player, Monster_parameter)
                         if vinn_förlust == "win":
                             Monster_parameter = Monster_parameter + 3
-                        vinn_förlust = ""
+                            vinn_förlust = ""
                         break
                     elif Dörr == 2:
                         fälla(A_Player)
+                        break
+                    else:
+                        kista(A_Player)
+                        break
+                else:
+                    print("Otillåtet svar")
+        elif Valet == "4":
+            time.sleep(2)
+            hela()
+        else:
+            print("Otillåtet svar")
+  
+
+def hela():
+    fråga = input("Du är skadad. Vill du hela dig själv?")
+    fråga = fråga.lower()
+    heal_items = []
+    while True:
+        if fråga == "ja":
+            for i in inventory:
                 if i in helande_items:
                     heal_items.append(i)
             if len(heal_items) < 1:
@@ -477,7 +497,8 @@ A_Player.nya_namnet()
 print("Välkomen. Stig in i om du vågar...\n")
 time.sleep(2)
 valet()
+print("")
 if A_Player.level == 10:
     print("Du vann")
 else:
-    print("Du förlorade. Spela gärna igen")                      
+    print("Du förlorade. Spela gärna igen")
