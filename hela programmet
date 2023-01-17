@@ -275,7 +275,7 @@ def valet():
                         if borttaget_item in ["1","2","3","4","5"]:
                             borttaget_item = int(borttaget_item)
                             borttaget_item = borttaget_item - 1
-                            lista_för_items = len(inventory)
+                            lista_för_items = len(inventory) - 1
                             if borttaget_item <= lista_för_items:
                                 inventory.pop(borttaget_item)
                         break
@@ -373,7 +373,7 @@ def monster(self, Monster_parameter):
         Skada = A_Player.träff_del(m_styrka)
         print(f"\n{Monster[Monster_namn][1].title()} är för stark och {self.namn} tappar {m_styrka} hp i {Skada}")
         hela()
-    elif m_styrka == self.styrka:
+    elif m_styrka == total_styrka():
         print(f"Ni är lika starka och {Monster[Monster_namn][1]} springer iväg")
     else:
         if Monster_namn in x:
@@ -415,6 +415,27 @@ def kista(self):
                         print("Otillåtet svar")
                         continue
                 break
+            if len(inventory) == 5:
+                print("Du kan inte ha fler föremål på dig")
+                print(inventory)
+                while True:
+                    utbyte? = input("Vill du byta ut något?")
+                    utbyte? = utbyte?.lower()
+                    if utbyte? == "ja":
+                        while True:
+                            utbytt_item = input("Vilket föremål vill du plocka bort? Svara med en siffra mellan 1 och 5")
+                            if utbytt_item in ["1","2","3","4","5"]:
+                                utbytt_item = int(utbytt_item)
+                                utbytt_item = utbytt_item - 1
+                                lista_för_items = len(inventory) - 1
+                                if utbytt_item <= lista_för_items:
+                                    inventory.pop(borttaget_item)
+                                else:
+                                    print("Otillåtet svar")
+                                    continue
+                                
+                        
+                            
             else:
                 inventory.append(item)
                 ny_self_bonus(item, bonus)
