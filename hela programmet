@@ -1,5 +1,19 @@
 import random as rand
-import time
+import time, sys
+
+def skrivandetext(text):
+    for bokstäver in text:
+        sys.stdout.write(bokstäver)
+        sys.stdout.flush()
+        time.sleep(0.05)
+
+def skrivandeinput(text):
+    for bokstäver in text:
+        sys.stdout.write(bokstäver)
+        sys.stdout.flush()
+        time.sleep(0.05)
+    value = input()
+    return value
 
 #Deklarerar att inventoryn från början är tomt 
 inventory = []
@@ -100,7 +114,7 @@ class Player():
             return "huvudet"
     
     def nya_namnet(self):
-        nytt_namn = input("Vad ska din karatär heta?")
+        nytt_namn = skrivandeinput("Vad ska din karatär heta?")
         nytt_namn = nytt_namn.title()
         self.namn = nytt_namn
 
@@ -174,10 +188,10 @@ class Item():
         return self.STR_bonus
     
     def get_values(self):
-        print(self.name)
-        print(self.STR_bonus)
-        print(self.healing)
-        print("")
+        skrivandetext(self.name)
+        skrivandetext(self.STR_bonus)
+        skrivandetext(self.healing)
+        skrivandetext("")
 
 def ny_self_bonus(item_b, ny_bonus):
     if item_b == "en blå ring":
@@ -221,16 +235,16 @@ def get_self_bonus(check_item):
     return get_bonus
 
 
-def printItems():
+def skrivandetextItems():
     if len(inventory) > 0:
         for i in inventory:
             BonuS = get_self_bonus(i)
             if i in helande_items:
-                print(f"{i} har {BonuS} i healing")
+                skrivandetext(f"{i} har {BonuS} i healing")
             else:
-                 print(f"{i} har {BonuS} i styrka")
+                 skrivandetext(f"{i} har {BonuS} i styrka")
     else:
-        print("Ditt inventory är tomt")
+        skrivandetext("Ditt inventory är tomt")
 
 def total_styrka():
     den_totala_styrkan = A_Player.styrka
@@ -268,7 +282,7 @@ def valet():
             break
         if A_Player.level == 10:
             break
-        Valet = input("""\nVad vill du göra?
+        Valet = skrivandeinput("""\nVad vill du göra?
     1. Se din karaktärs egenskaper?
     2. Se ditt inventory?
     3. Välja en dörr?
@@ -276,7 +290,7 @@ def valet():
 
     """)
         if Valet == "1":
-            print(f"""
+            skrivandetext(f"""
     I högerbenet har du {A_Player.HP_högerben}hp
     I vänsterbenet har du {A_Player.HP_vänsterben}hp
     I högerarmen har du {A_Player.HP_högerarm}hp
@@ -291,14 +305,14 @@ def valet():
     Du är i level {A_Player.level}""")
         elif Valet == "2":
             if len(inventory) > 0:
-                printItems()
-                print(inventory)
+                skrivandetextItems()
+                skrivandetext(inventory)
                 while True:
-                    ta_bort = input("\nVill du plocka bort något?\n")
+                    ta_bort = skrivandeinput("\nVill du plocka bort något?\n")
                     ta_bort = ta_bort.lower()
                     if ta_bort == "ja":
-                        print("Svara med en siffra mellan 1 till 5")
-                        borttaget_item = input("Vilket item vill du plocka bort?")
+                        skrivandetext("Svara med en siffra mellan 1 till 5")
+                        borttaget_item = skrivandeinput("Vilket item vill du plocka bort?")
                         if borttaget_item in ["1","2","3","4","5"]:
                             borttaget_item = int(borttaget_item)
                             borttaget_item = borttaget_item - 1
@@ -311,11 +325,11 @@ def valet():
                     else:
                         continue
             else:
-                print("Du har inget i ditt inventory")   
+                skrivandetext("Du har inget i ditt inventory")   
                 
         elif Valet == "3":
             while True:
-                val_dörr = input("\nVilken dörr vill du välja? 1, 2 eller 3?\n")
+                val_dörr = skrivandeinput("\nVilken dörr vill du välja? 1, 2 eller 3?\n")
                 if val_dörr in ["1","2","3"]:
                     Dörr = rand.randint (1,3)
                     if Dörr == 1:
@@ -331,12 +345,12 @@ def valet():
                         kista(A_Player)
                         break
                 else:
-                    print("Otillåtet svar")
+                    skrivandetext("Otillåtet svar")
         elif Valet == "4":
             time.sleep(2)
             hela()
         else:
-            print("Otillåtet svar")
+            skrivandetext("Otillåtet svar")
   
 
 #En funktion som körs när man helar sig själv.
@@ -347,13 +361,13 @@ def hela():
         if i in helande_items:
             heal_items.append(i)
     if len(heal_items) < 1:
-        print("\nDu har inga föremål att hela dig själv med")
+        skrivandetext("\nDu har inga föremål att hela dig själv med")
         
     else:
         antal_heal_items = len(heal_items)
-        print(heal_items)
+        skrivandetext(heal_items)
         while True:
-            val_item = input("\nVilket nummer på item vill du använda?(använd siffror)\n")
+            val_item = skrivandeinput("\nVilket nummer på item vill du använda?(använd siffror)\n")
             if val_item in ["1","2","3","4","5"]:
                 val_item = int(val_item)
                 val_item = val_item - 1
@@ -362,8 +376,8 @@ def hela():
             else:
                 continue
         while True:
-            print(kroppsdelar)
-            helad_kroppsdel = input("\nVilken kropppsdel vill du hela?\n")
+            skrivandetext(kroppsdelar)
+            helad_kroppsdel = skrivandeinput("\nVilken kropppsdel vill du hela?\n")
             helad_kroppsdel = helad_kroppsdel.lower()
             if helad_kroppsdel in kroppsdelar:
                 mängd_heal = get_self_bonus(valt_item)
@@ -379,13 +393,13 @@ def hela():
 
 def monster(self, Monster_parameter):
     Monster_namn = rand.randint(0,len(Monster) - 1)
-    print(f"\n{self.namn} stöter på {Monster[Monster_namn][0]}!")
+    skrivandetext(f"\n{self.namn} stöter på {Monster[Monster_namn][0]}!")
     time.sleep(3)
     m_styrka = rand.randint(1, Monster_parameter)
     if m_styrka > total_styrka():
         Skada = A_Player.träff_del(m_styrka)
-        print(f"\n{Monster[Monster_namn][1].title()} är för stark och {self.namn} tappar {m_styrka} hp i {Skada}")
-        fråga2 = input("\nDu är skadad. Vill du hela dig själv?\n")
+        skrivandetext(f"\n{Monster[Monster_namn][1].title()} är för stark och {self.namn} tappar {m_styrka} hp i {Skada}")
+        fråga2 = skrivandeinput("\nDu är skadad. Vill du hela dig själv?\n")
         fråga2 = fråga2.lower()
         while True:
             if fråga2 == "ja":
@@ -396,12 +410,12 @@ def monster(self, Monster_parameter):
             else:
                 continue
     elif m_styrka == total_styrka():
-        print(f"\nNi är lika starka och {Monster[Monster_namn][1]} springer iväg")
+        skrivandetext(f"\nNi är lika starka och {Monster[Monster_namn][1]} springer iväg")
     else:
         if Monster_namn in x:
-            print(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar den. {self.namn} går upp en level")
+            skrivandetext(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar den. {self.namn} går upp en level")
         else:
-            print(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar det. {self.namn} går upp en level")
+            skrivandetext(f"\n{self.namn} är starkare än {Monster[Monster_namn][1]} och besegrar det. {self.namn} går upp en level")
         self.level = self.level + 1
         return "win"
 
@@ -409,47 +423,47 @@ def monster(self, Monster_parameter):
         
 def kista(self):
     bonus = rand.randint(1, 10)
-    print("\nI rummet hittar du en kista!")
+    skrivandetext("\nI rummet hittar du en kista!")
     item = rand.choice(kistitems)
-    print(f"\nI kistan hittar du {item} med {bonus} i bonus.")
+    skrivandetext(f"\nI kistan hittar du {item} med {bonus} i bonus.")
     time.sleep(2)
     while True:
-        kist_val = input("\nVill du lägga till den i ditt inventory?")
+        kist_val = skrivandeinput("\nVill du lägga till den i ditt inventory?")
         kist_val = kist_val.lower()
         if kist_val == "ja":
             if item in inventory:
-                print(f"\nDu har redan ett sådant item, det itemet du har just nu har bonusen {get_self_bonus(item)}")
+                skrivandetext(f"\nDu har redan ett sådant item, det itemet du har just nu har bonusen {get_self_bonus(item)}")
                 while True:
-                    svar = input("Vill du byta ut det?")
+                    svar = skrivandeinput("Vill du byta ut det?")
                     svar = svar.lower()
                     if svar == "ja":
                         ny_self_bonus(item, bonus)
                         item = item.title()
-                        print(f"\n{item} med en bonus på {bonus} byttes ut mot det du redan hade")
+                        skrivandetext(f"\n{item} med en bonus på {bonus} byttes ut mot det du redan hade")
                         break
                     elif svar == "nej":
                         item = item.lower()
-                        print(f"\nDu behåller det gamla itemet")
+                        skrivandetext(f"\nDu behåller det gamla itemet")
                         break
                     else:
-                        print("Otillåtet svar")
+                        skrivandetext("Otillåtet svar")
                         continue
                 break
             if len(inventory) == 5:
-                print("\nDu kan inte ha fler föremål på dig")
-                print(inventory)
+                skrivandetext("\nDu kan inte ha fler föremål på dig")
+                skrivandetext(inventory)
                 while True:
-                    utbyte = input("\nVill du byta ut något?")
+                    utbyte = skrivandeinput("\nVill du byta ut något?")
                     utbyte = utbyte.lower()
                     if utbyte == "ja":
                         while True:
-                            utbytt_item = input("\nVilket föremål vill du plocka bort? Svara med en siffra mellan 1 och 5\n")
+                            utbytt_item = skrivandeinput("\nVilket föremål vill du plocka bort? Svara med en siffra mellan 1 och 5\n")
                             if utbytt_item in ["1","2","3","4","5"]:
                                 utbytt_item = int(utbytt_item)
                                 utbytt_item = (utbytt_item - 1)
                                 borttaget_item = inventory.pop(utbytt_item)
                                 ny_self_bonus (borttaget_item, 0)
-                                print("\nFöremålet du valde har tagits bort och bytts ut mot det nya")
+                                skrivandetext("\nFöremålet du valde har tagits bort och bytts ut mot det nya")
                                 inventory.append(item)
                                 ny_self_bonus(item, bonus)
                                 break
@@ -457,7 +471,7 @@ def kista(self):
                                 continue
                         break
                     elif utbyte == "nej":
-                        print("\nDu behöll ditt föremål")
+                        skrivandetext("\nDu behöll ditt föremål")
                         break
                     else:
                         continue
@@ -468,7 +482,7 @@ def kista(self):
         elif kist_val == "nej":
             break
         else:
-            print("Otillåtet svar")
+            skrivandetext("Otillåtet svar")
             continue
                 
 
@@ -478,13 +492,13 @@ def kista(self):
 def fälla(self):
     while True:
         time.sleep(4)
-        print("\nDet här rummet verkar tomt...")
+        skrivandetext("\nDet här rummet verkar tomt...")
         time.sleep(6)
-        print(f"\nHoppsan! {self.namn} stöter på en fälla!")
+        skrivandetext(f"\nHoppsan! {self.namn} stöter på en fälla!")
         skada = rand.randint(1, 10)
         Skada = A_Player.träff_del(skada)
-        print(f"\nDu tar {skada} skada i {Skada}")
-        fråga1 = input("\nDu är skadad. Vill du hela dig själv?\n")
+        skrivandetext(f"\nDu tar {skada} skada i {Skada}")
+        fråga1 = skrivandeinput("\nDu är skadad. Vill du hela dig själv?\n")
         fråga1 = fråga1.lower()
         while True:
             if fråga1 == "ja":
@@ -494,7 +508,7 @@ def fälla(self):
             elif fråga1 == "nej":
                 break
             else:
-                print("Otillåtet svar")
+                skrivandetext("Otillåtet svar")
                 continue
         break
         
@@ -504,11 +518,11 @@ def fälla(self):
 
 A_Player = Player("name",15,15,10,10,10,10,1,5)
 A_Player.nya_namnet()
-print("Välkomen. Stig in i om du vågar...\n")
+skrivandetext("Välkomen. Stig in i om du vågar...\n")
 time.sleep(2)
 valet()
-print("")
+skrivandetext("")
 if A_Player.level == 10:
-    print("Du vann")
+    skrivandetext("Du vann")
 else:
-    print("Du förlorade. Spela gärna igen")
+    skrivandetext("Du förlorade. Spela gärna igen")
