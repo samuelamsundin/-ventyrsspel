@@ -348,7 +348,7 @@ def hela():
             heal_items.append(i)
     if len(heal_items) < 1:
         print("\nDu har inga föremål att hela dig själv med")
-        break
+        
     else:
         antal_heal_items = len(heal_items)
         print(heal_items)
@@ -373,7 +373,6 @@ def hela():
                 break
             else:
                 continue
-        break
                     
 
 #Allt som händer när man stöter på ett monster
@@ -389,10 +388,10 @@ def monster(self, Monster_parameter):
         fråga2 = input("\nDu är skadad. Vill du hela dig själv?\n")
         fråga2 = fråga2.lower()
         while True:
-            if fråga2 = "ja":
+            if fråga2 == "ja":
                 hela()
                 break
-            elif fråga2 = "nej":
+            elif fråga2 == "nej":
                 break
             else:
                 continue
@@ -488,15 +487,16 @@ def fälla(self):
         fråga1 = input("\nDu är skadad. Vill du hela dig själv?\n")
         fråga1 = fråga1.lower()
         while True:
-            if fråga1 = "ja":
+            if fråga1 == "ja":
                 time.sleep(1.5)
                 hela()
                 break
-            elif fråga1 = "nej":
+            elif fråga1 == "nej":
                 break
             else:
                 print("Otillåtet svar")
                 continue
+        break
         
     
 
