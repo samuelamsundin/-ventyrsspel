@@ -16,7 +16,7 @@ def skrivandeinput(text):
     return value
 
 #Deklarerar att inventoryn från början är tomt 
-inventory = ["ett svärd","en krona","en rustning"]
+inventory = []
 
 #En del som anger vad man kan hitta i en kista, som sedan delas upp i helande items och styrkebonus. Vilket senare används när man avgör vad man hittar för något.
 kistitems = ["en helande dryck", "ett svärd", "en blå ring", "en krona", "en rustning", "en sköld", "ett magiskt bandage", "en amulet", "en röd ring"]
@@ -275,9 +275,9 @@ def total_styrka():
 #Lägger till alla föremål i klassen item             
 BlåRing_Item = Item("en blå ring", 0, 0)
 Enhelandedryck_Item = Item("en helande dryck", 0, 0)
-EttSvärd_Item = Item("ett svärd", 30, 0)
-EnKrona_Item = Item("en krona", 30, 0)
-EnRustning_Item = Item("en rustning", 30, 0)
+EttSvärd_Item = Item("ett svärd", 0, 0)
+EnKrona_Item = Item("en krona", 0, 0)
+EnRustning_Item = Item("en rustning", 0, 0)
 EnSköld_Item = Item("en sköld", 0, 0)
 EttMagisktBandage_Item = Item("ett magiskt bandage", 0, 0)
 EnAmulet_Item = Item("en amulet", 0, 0)
