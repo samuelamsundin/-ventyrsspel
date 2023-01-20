@@ -155,7 +155,7 @@ def heala_kroppsdel(kroppsdel, mängd_heal):
         if (A_Player.HP_vänsterarm + mängd_heal) > 10:
             A_Player.HP_vänsterarm = 10
         else:
-            A_Player.HP_vänsterarm = A_Player.HP_vänsterben + mängd_heal
+            A_Player.HP_vänsterarm = A_Player.HP_vänsterarm + mängd_heal
         
     elif kroppsdel == "högerarm":
         if (A_Player.HP_högerarm + mängd_heal) > 10:
