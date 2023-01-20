@@ -5,13 +5,13 @@ def skrivandetext(text):
     for bokstäver in text:
         sys.stdout.write(bokstäver)
         sys.stdout.flush()
-        time.sleep(0.05)
+        time.sleep(0.02)
 
 def skrivandeinput(text):
     for bokstäver in text:
         sys.stdout.write(bokstäver)
         sys.stdout.flush()
-        time.sleep(0.05)
+        time.sleep(0.02)
     value = input()
     return value
 
@@ -44,6 +44,7 @@ class Player():
         self.level = level
         self.styrka = styrka
 
+#Slumpar vilken kroppsdel som ska ta skada, subtraherar skadan med HP, blir det mindre än 0 ändras HP till 0, retunerar också vilken kroppsdel som tagit skadda
     def träff_del(self, skada):
         träffdel = rand.randint(1, 11)
         if träffdel == 1 or träffdel == 2:
@@ -112,12 +113,15 @@ class Player():
             else:
                 self.HP_huvud = self.HP_huvud - skada
             return "huvudet"
-    
+
+
+#Ändrar spelarens namn
     def nya_namnet(self):
         nytt_namn = skrivandeinput("Vad ska din karatär heta?")
         nytt_namn = nytt_namn.title()
         self.namn = nytt_namn
 
+#Kollar om listan med kroppsdelar som har 0 hp är 2 eller om huvudet har 0 hp
     def Döda_kroppsdelar(self):
         if self.HP_huvud <= 0:
             return True
@@ -125,6 +129,8 @@ class Player():
             return True
         else:
             return False
+
+#Funktionen antingen adderar mängden som man vill heala eller ändrar HP till max om healen plus det aktulla HP är mer än max HP för den kroppsdelen
         
 def heala_kroppsdel(kroppsdel, mängd_heal):
     if kroppsdel == "bålen":
@@ -175,23 +181,31 @@ class Item():
         self.STR_bonus = STR_bonus
         self.healing = healing
 
+        #Sätter ny bonus för antingen healing eller styrka
+
     def set_healing(self, ny_heal):
         self.healing = ny_heal
-
-    def get_healing(self):
-        return self.healing
 
     def set_STR_bonus(self, ny_styrka):
         self.STR_bonus = ny_styrka
 
+        #Retunerar ett föremåls bonus
+
+    def get_healing(self):
+        return self.healing
+
     def get_STR_bonus(self):
         return self.STR_bonus
+
+    #get_values skriver namn, styrke bonus och healing bonus för ett visst item
     
     def get_values(self):
         skrivandetext(self.name)
         skrivandetext(self.STR_bonus)
         skrivandetext(self.healing)
         skrivandetext("")
+
+#Denna del tar reda på vilket föremål och kör antingen funktionen set_healinh eller set_STR_bonus för det förmålet, vilken funktion som körs beror på itemet
 
 def ny_self_bonus(item_b, ny_bonus):
     if item_b == "en blå ring":
@@ -212,6 +226,8 @@ def ny_self_bonus(item_b, ny_bonus):
         EnAmulet_Item.set_healing(ny_bonus)
     else:
         EnRödRing_Item.set_STR_bonus(ny_bonus)
+
+#Tar reda på vilket item och kör antingen funktionen get_healing eller get_STR_bonus för det föremålet, vilken funktion som körs beror på vilket typ av föremål
 
 def get_self_bonus(check_item):
     if check_item == "en blå ring":
@@ -234,18 +250,19 @@ def get_self_bonus(check_item):
         get_bonus = EnRödRing_Item.get_STR_bonus()
     return get_bonus
 
-
+#Skriver ut namn och vilken bonus ett föremål har
 def skrivandetextItems():
     if len(inventory) > 0:
         for i in inventory:
             BonuS = get_self_bonus(i)
             if i in helande_items:
-                skrivandetext(f"{i} har {BonuS} i healing")
+                skrivandetext(f"{i} har {BonuS} i healing\n")
             else:
-                 skrivandetext(f"{i} har {BonuS} i styrka")
+                 skrivandetext(f"{i} har {BonuS} i styrka\n")
     else:
         skrivandetext("Ditt inventory är tomt")
 
+#Lägger ihop alla styrke items bonus med spelarens styrka
 def total_styrka():
     den_totala_styrkan = A_Player.styrka
     for i in inventory:
@@ -302,16 +319,16 @@ def valet():
 
     Din styrka är {total_styrka()}
     
-    Du är i level {A_Player.level}""")
+    Du är i level {A_Player.level}\n""")
         elif Valet == "2":
             if len(inventory) > 0:
                 skrivandetextItems()
-                skrivandetext(inventory)
+                print(inventory)
                 while True:
                     ta_bort = skrivandeinput("\nVill du plocka bort något?\n")
                     ta_bort = ta_bort.lower()
                     if ta_bort == "ja":
-                        skrivandetext("Svara med en siffra mellan 1 till 5")
+                        skrivandetext("Svara med en siffra mellan 1 till 5\n")
                         borttaget_item = skrivandeinput("Vilket item vill du plocka bort?")
                         if borttaget_item in ["1","2","3","4","5"]:
                             borttaget_item = int(borttaget_item)
@@ -365,7 +382,7 @@ def hela():
         
     else:
         antal_heal_items = len(heal_items)
-        skrivandetext(heal_items)
+        print(heal_items)
         while True:
             val_item = skrivandeinput("\nVilket nummer på item vill du använda?(använd siffror)\n")
             if val_item in ["1","2","3","4","5"]:
@@ -376,7 +393,7 @@ def hela():
             else:
                 continue
         while True:
-            skrivandetext(kroppsdelar)
+            print(kroppsdelar)
             helad_kroppsdel = skrivandeinput("\nVilken kropppsdel vill du hela?\n")
             helad_kroppsdel = helad_kroppsdel.lower()
             if helad_kroppsdel in kroppsdelar:
@@ -451,7 +468,7 @@ def kista(self):
                 break
             if len(inventory) == 5:
                 skrivandetext("\nDu kan inte ha fler föremål på dig")
-                skrivandetext(inventory)
+                print(inventory)
                 while True:
                     utbyte = skrivandeinput("\nVill du byta ut något?")
                     utbyte = utbyte.lower()
@@ -498,9 +515,9 @@ def fälla(self):
         skada = rand.randint(1, 10)
         Skada = A_Player.träff_del(skada)
         skrivandetext(f"\nDu tar {skada} skada i {Skada}")
-        fråga1 = skrivandeinput("\nDu är skadad. Vill du hela dig själv?\n")
-        fråga1 = fråga1.lower()
         while True:
+            fråga1 = skrivandeinput("\nDu är skadad. Vill du hela dig själv?\n")
+            fråga1 = fråga1.lower()
             if fråga1 == "ja":
                 time.sleep(1.5)
                 hela()
@@ -518,11 +535,12 @@ def fälla(self):
 
 A_Player = Player("name",15,15,10,10,10,10,1,5)
 A_Player.nya_namnet()
+skrivandetext("{A_Player.namn} är en gnom som är sugen på äventyr och beger sig därför till de mörka bergen strax utanför byn")
 skrivandetext("Välkomen. Stig in i om du vågar...\n")
 time.sleep(2)
 valet()
 skrivandetext("")
 if A_Player.level == 10:
-    skrivandetext(f"Du vann! Grattulerar!. Detta spel är skapat av Tilde Andersson och Samuel Sundin i klass Te21C på Åva gymnasium")
+    skrivandetext(f"{A_Player.namn} överlever sina äventyr och kommer tillbaka till byn där det berättas historier i flera årtionden! \nGrattulerar du vann! \nDetta spel är skapat av Tilde Andersson och Samuel Sundin i klass Te21C på Åva gymnasium")
 else:
-    skrivandetext(f"Du förlorade. Spela gärna igen")
+    skrivandetext(f"{A_Player} förblöder ensam i en grotta. Spela gärna igen")
